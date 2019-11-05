@@ -29,68 +29,71 @@ def face_emotion():
             
             with graph.as_default():
                 
-                genero, genero_est, idade, idade_est = DetectGenderAge(img_colorida)
+                try:
+                    genero, genero_est, idade, idade_est = DetectGenderAge(img_colorida)
+                    emocoes = DetectEmotions(img)
                 
-                emocoes = DetectEmotions(img)
-                
-                nome_emocao = []
-                emocoes_resultados = []
-                probabilidade_emocao = []
-                for chave, valor in emocoes.items():
-                    nome_emocao.append(chave)
-                    emocoes_resultados.append(True if valor >= 20.0 else False)
-                    probabilidade_emocao.append(valor)
-                
-                dicionario_emocoes = {
-                   nome_emocao[0] : {
-                       'valor': emocoes_resultados[0],
-                       'confiança': probabilidade_emocao[0]
-                   },
-                   nome_emocao[1] : {
-                       'valor': emocoes_resultados[1],
-                       'confiança': probabilidade_emocao[1]
-                   },
-                   nome_emocao[2] : {
-                       'valor': emocoes_resultados[2],
-                       'confiança': probabilidade_emocao[2]
-                   },
-                   nome_emocao[3] : {
-                       'valor': emocoes_resultados[3],
-                       'confiança': probabilidade_emocao[3]
-                   },
-                   nome_emocao[4] : {
-                       'valor': emocoes_resultados[4],
-                       'confiança': probabilidade_emocao[4]
-                   },
-                   nome_emocao[5] : {
-                       'valor': emocoes_resultados[5],
-                       'confiança': probabilidade_emocao[5]
-                   },
-                   nome_emocao[6] : {
-                       'valor': emocoes_resultados[6],
-                       'confiança': probabilidade_emocao[6]
-                   }
-               }
-                
-                retorno_texto = {
-                    'status': 'sucesso',
-                    'foto': {
-                        'url': imagem.filename,
-                        'largura': img_colorida.shape[1],
-                        'altura': img_colorida.shape[0]
-                        },
-                    'sentimentos' : dicionario_emocoes,
-                    'gênero' : {
-                        'valor': genero, 
-                        'confiança': genero_est
-                        },
-                    'idade': {
-                        'valor': idade, 
-                        'confiança': idade_est
-                        },
-                    'data' : str(datetime.datetime.now())
+                    nome_emocao = []
+                    emocoes_resultados = []
+                    probabilidade_emocao = []
+                    for chave, valor in emocoes.items():
+                        nome_emocao.append(chave)
+                        emocoes_resultados.append(True if valor >= 20.0 else False)
+                        probabilidade_emocao.append(valor)
+                    
+                    dicionario_emocoes = {
+                    nome_emocao[0] : {
+                        'valor': emocoes_resultados[0],
+                        'confiança': probabilidade_emocao[0]
+                    },
+                    nome_emocao[1] : {
+                        'valor': emocoes_resultados[1],
+                        'confiança': probabilidade_emocao[1]
+                    },
+                    nome_emocao[2] : {
+                        'valor': emocoes_resultados[2],
+                        'confiança': probabilidade_emocao[2]
+                    },
+                    nome_emocao[3] : {
+                        'valor': emocoes_resultados[3],
+                        'confiança': probabilidade_emocao[3]
+                    },
+                    nome_emocao[4] : {
+                        'valor': emocoes_resultados[4],
+                        'confiança': probabilidade_emocao[4]
+                    },
+                    nome_emocao[5] : {
+                        'valor': emocoes_resultados[5],
+                        'confiança': probabilidade_emocao[5]
+                    },
+                    nome_emocao[6] : {
+                        'valor': emocoes_resultados[6],
+                        'confiança': probabilidade_emocao[6]
                     }
-                
+                }
+                    
+                    retorno_texto = {
+                        'status': 'sucesso',
+                        'foto': {
+                            'url': imagem.filename,
+                            'largura': img_colorida.shape[1],
+                            'altura': img_colorida.shape[0]
+                            },
+                        'sentimentos' : dicionario_emocoes,
+                        'gênero' : {
+                            'valor': genero, 
+                            'confiança': genero_est
+                            },
+                        'idade': {
+                            'valor': idade, 
+                            'confiança': idade_est
+                            },
+                        'data' : str(datetime.datetime.now())
+                        }
+                except:
+                    retorno_texto = {
+                        'status': 'erro'
+                    }
     return jsonify(resposta=retorno_texto)
 
 def DetectEmotions(imagem):

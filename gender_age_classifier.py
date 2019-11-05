@@ -49,7 +49,7 @@ def DetectGenderAge(image, padding=20):
                    min(faceBox[3]+padding,image.shape[0]-1),max(0,faceBox[0]-padding)
                    :min(faceBox[2]+padding, image.shape[1]-1)]
 
-        blob=cv2.dnn.blobFromImage(face, 1.0, (227,227), MODEL_MEAN_VALUES, swapRB=False)
+        blob=cv2.dnn.blobFromImage(image, 1.0, (227,227), MODEL_MEAN_VALUES, swapRB=False)
         genderNet.setInput(blob)
         genderPreds=genderNet.forward()
         gender=genderList[genderPreds[0].argmax()]
