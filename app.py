@@ -71,11 +71,11 @@ def face_emotion():
                         'confiança': probabilidade_emocao[6]
                     }
                 }
-                    
+
                     retorno_texto = {
                         'status': 'sucesso',
                         'foto': {
-                            'url': imagem.filename,
+                            'nome': imagem.filename,
                             'largura': img_colorida.shape[1],
                             'altura': img_colorida.shape[0]
                             },
